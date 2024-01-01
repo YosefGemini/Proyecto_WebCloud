@@ -1,0 +1,76 @@
+/* animacion para mostrar elemento por medio de una animacion que lo pone en su posicion original  */
+
+.animation_down_show {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0px);
+    transition: all 0.5s ease-in-out;
+  
+}
+
+/* animacion para ocultar elemento por medio de una animacion que lo pone 100 px bajo su posicion original */
+.animation_down_hide {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(100px);
+    transition: all 0.5s ease-in-out;
+  
+}
+
+/* animacion para mostrar elemento por medio de una animacion que lo pone en su posicion original  */
+
+.animation_up_show {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0px);
+    transition: all 0.5s ease-in-out;
+  
+}
+
+/* animacion para ocultar elemento por medio de una animacion que lo pone 100 px sobre su posicion original */
+.animation_up_hide {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(-100px);
+    transition: all 0.5s ease-in-out;
+  
+}
+
+/* animacion para mostrar elemento por medio de una animacion que lo pone en su posicion original  */
+
+.animation_left_show {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateX(0px);
+    transition: all 0.5s ease-in-out;
+  
+}
+
+/* animacion para ocultar elemento por medio de una animacion que lo pone 100 px a la izquierda de su posicion original */
+.animation_left_hide {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateX(-100px);
+    transition: all 0.5s ease-in-out;
+  
+}
+
+/* animacion para mostrar elemento por medio de una animacion que lo pone en su posicion original  */
+
+.animation_right_show {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateX(0px);
+    transition: all 0.5s ease-in-out;
+  
+}
+
+/* animacion para ocultar elemento por medio de una animacion que lo pone 100 px a la derecha de su posicion original */
+
+.animation_right_hide {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateX(100px);
+    transition: all 0.5s ease-in-out;
+  
+}

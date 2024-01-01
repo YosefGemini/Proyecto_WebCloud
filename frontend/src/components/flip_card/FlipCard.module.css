@@ -1,0 +1,45 @@
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #6883ae inset !important;
+  border: transparent;
+  color: white !important;
+
+}
+.scene {
+  perspective: 1000px;
+}
+
+
+.card {
+  position: relative; 
+
+  width: 100%;
+  height: 100%;
+  
+  transform-style: preserve-3d;
+  /* transform-origin: center right; */
+  transition: transform 1s;
+}
+
+.card.is_flipped{
+  transform: rotateY(180deg);
+}
+
+/* :hover .card {
+  transform: rotateY(180deg);
+} */
+
+.card__face {
+  position: absolute; 
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+
+
+.card__face__back {
+  transform: rotateY(180deg);
+}

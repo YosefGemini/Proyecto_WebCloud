@@ -69,6 +69,9 @@ def update_product(db: Session, product: ProductUpdate):
     product_in_db.name = product.name
     product_in_db.description = product.description
     product_in_db.characteristics = product.characteristics
+    product_in_db.price = product.price if product.price else product_in_db.price
+    product_in_db.discount = product.discount if product.discount else product_in_db.discount
+    product_in_db.quantity = product.quantity if product.quantity else product_in_db.quantity 
 
 
     db.commit()

@@ -1,5 +1,5 @@
 import { get_token } from "./globals";
-export interface IFiles{
+export interface Files{
 
   file_name: string,
   file_path: string,

@@ -43,8 +43,8 @@ export async function get_all_products() {
       method: "GET",
     });
     if (res.status === 200) {
-      const data = await res.json();
-      return data;
+      
+      return res;
     }
     return null;
   } catch (error) {

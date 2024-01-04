@@ -1,8 +1,9 @@
-import { ChangeEvent, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, createContext, useEffect, useMemo, useState } from "react";
 import ProductCard from "../components/products_card/ProductsCard";
 import NavigationLayout from "./NavigationLayout";
 import { Category, createCategory, getAllCategories, getCategoryById } from "../services/category";
 import { Product, get_all_products } from "../services/products";
+import ProductList from "../components/product_list/ProductList";
 
 interface IData {
   categories: Category[];
@@ -10,59 +11,21 @@ interface IData {
 }
 
 
+export const ContextoSearch = createContext({ search_text: "" });
 
 export default function Products() {
-  const [search, setSearch] = useState<string>("");
+  
+  // const [search, setSearch] = useState<string>("");
+
+  const [search_text, set_search_text] = useState("");
 
   // const [category_info, setCategory_info] = useState<Category[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(0);
   // const [products, setProducts] = useState<Product[]>([]);
   const [dataItems, setDataItems] = useState<IData>({
     categories: [],
     products: [],
   });
 
-  const filteredProducts = useMemo(
-    () => generateFilteredProducts(currentPage),
-    [search]
-  );
-
-
-  const maxPage =
-    Math.ceil(filteredProducts.length / 5) === 0
-      ? 1
-      : Math.ceil(filteredProducts.length / 5);
-
-  function generateFilteredProducts(correntPage: number): Product[] {
-    if (search === "") {
-      return dataItems.products;
-    }
-    const filteredProducts = dataItems.products.filter((product) =>
-      [product.name, product.description].some((field) => {
-        return field.toLowerCase().includes(search.toLowerCase());
-      })
-    );
-    return filteredProducts;
-  }
-
-  const nextPage = () => {
-    if (filteredProducts.length > currentPage + 5)
-      setCurrentPage(currentPage + 5);
-  };
-
-  const prevPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 5);
-  };
-
-  const onSearchChange = (text: string) => {
-    setCurrentPage(0);
-    setSearch(text);
-  };
-
-  useEffect(() => {
-    //console.log(search_text);
-    onSearchChange(search);
-  }, [search]);
 
   useEffect(() => {
     //console.log(search_text);
@@ -91,14 +54,15 @@ export default function Products() {
     <NavigationLayout selectedPage={1}>
       <div className="mt-[70px]">
         <div className=" flex flex-col justify-center">
-          <form action="" className="w-full flex justify-center ">
-            <input type="text" className=" p-2 rounded-lg m-4 w-[30%]" value={search} onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setSearch(e.target.value)}/>
-            <button className="bg-secondary_blue text-primary_blue p-2 m-4">
+          <form action="" className="w-full flex justify-center items-center ">
+            <label className="text-white" >Buscar: </label>
+            <input type="text" className=" p-2 rounded-lg m-4 w-[30%]" value={search_text} onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              set_search_text(e.target.value)}/>
+            {/* <button className="bg-secondary_blue text-primary_blue p-2 m-4">
               Buscar
-            </button>
+            </button> */}
           </form>
-          <div className="flex-row flex">
+          <div className="flex-row flex min-h-[70vh]">
             {/* categorias */}
             <div className="w-[20%] flex flex-col text-white m-8">
               <h1>Categorias</h1>
@@ -116,23 +80,12 @@ export default function Products() {
               </ul>
             </div>
             <div className="w-[60%]">
-              <div className=" rounded-lg bg-white">
-                {dataItems.products.map((product, index) => (
-                  <ProductCard key={index} product={product} />
-                ))}
-              </div>
-              {/* paginacion */}
-              <div className="flex justify-center items-center text-white my-10">
-                {/* paginador */}
-                <button className="m-4" onClick={prevPage}>Anterior</button>
-                <div className=" p-2  bg-gray-400 border-2 border-black rounded-md">
-                  {currentPage}
-                </div>
-                <p className="m-4">de</p>
+              <ContextoSearch.Provider value={{ search_text }}>
+                <ProductList products={dataItems.products} /> 
+              </ContextoSearch.Provider>
 
-                <div className="m-4">{maxPage}</div>
-                <button className="m-4" onClick={nextPage} >Siguiente</button>
-              </div>
+              {/* <ProductList products={dataItems.products} /> */}
+              
             </div>
 
             {/* productos */}

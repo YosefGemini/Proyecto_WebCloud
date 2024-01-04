@@ -19,7 +19,7 @@ export default function ProductList({ products }: ProductListProps) {
           return products;
         } else {
           // Aplica el filtro en caso contrario
-          return generateFilteredProducts(currentPage);
+          return generateFilteredProducts();
         }
       },
     // generateFilteredProducts(currentPage),
@@ -33,7 +33,7 @@ export default function ProductList({ products }: ProductListProps) {
       ? 1
       : Math.ceil(filteredProducts.length / 5);
 
-  function generateFilteredProducts(correntPage: number): Product[] {
+  function generateFilteredProducts(): Product[] {
     if (search_text === "") {
       console.log("no hay nada en el search_text", products);
 
@@ -58,16 +58,15 @@ export default function ProductList({ products }: ProductListProps) {
     if (currentPage > 1) setCurrentPage(currentPage - 5);
   };
 
-  const onSearchChange = (text: string) => {
+  const onSearchChange = () => {
     setCurrentPage(0);
 
-    // setSearch(text);
   };
   
 
   useEffect(() => {
     console.log(search_text);
-    onSearchChange(search_text);
+    onSearchChange();
   }, [search_text]);
   //   useEffect(() => {
   //     console.log(search);

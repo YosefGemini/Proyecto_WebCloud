@@ -102,7 +102,7 @@ export async function download_file(file_id: string, token: String | null = get_
 export function formDataToFileList(formData: FormData): FileList {
   const files: File[] = [];
 
-  formData.forEach((value, key) => {
+  formData.forEach((value) => {
     if (value instanceof File) {
       files.push(value);
     }

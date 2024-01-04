@@ -1,7 +1,7 @@
-import { ChangeEvent, createContext, useEffect, useMemo, useState } from "react";
-import ProductCard from "../components/products_card/ProductsCard";
+import { ChangeEvent, createContext, useEffect, useState } from "react";
+// import ProductCard from "../components/products_card/ProductsCard";
 import NavigationLayout from "./NavigationLayout";
-import { Category, createCategory, getAllCategories, getCategoryById } from "../services/category";
+import { Category, getAllCategories } from "../services/category";
 import { Product, get_all_products } from "../services/products";
 import ProductList from "../components/product_list/ProductList";
 

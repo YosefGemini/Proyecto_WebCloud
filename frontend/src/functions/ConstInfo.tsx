@@ -1,5 +1,5 @@
 import { News } from "../components/news_carrousel/NewsCarrusel";
-import { Product } from "../services/products";
+// import { Product } from "../services/products";
 
 // interface que guarda la informacion de una pagina para el layout
 export interface pageInfo{

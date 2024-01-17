@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from uuid import UUID
+from schemas import category_product
 
 
 class CategoryBase(BaseModel):
@@ -9,9 +10,16 @@ class CategoryBase(BaseModel):
 class CategoryCreate(CategoryBase):
     pass
 
+
+class Product_Categories(CategoryBase):
+    id: UUID
+
+    class Config:
+        orm_mode = True
+
 class Category(CategoryBase):
     id: UUID
-    products: list[UUID] = None
+    products: list[category_product.Product] = None
 
     class Config:
         orm_mode = True

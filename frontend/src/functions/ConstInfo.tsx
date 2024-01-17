@@ -1,5 +1,5 @@
 import { News } from "../components/news_carrousel/NewsCarrusel";
-import { Product } from "../services/products";
+// import { Product } from "../services/products";
 
 // interface que guarda la informacion de una pagina para el layout
 export interface pageInfo{
@@ -88,63 +88,63 @@ export const news: News[] = [
 
 // Informacion de los productos que se muestran en la pagina de productos
 
-export const products: Product[] = [
+// export const products: Product[] = [
     
 
 
 
-    {
-        id: 'master',
-        name: "Producto 1",
-        description: "Descripcion del producto 1",
-        price: 100,
-        images: [
-            "https://img.freepik.com/vector-premium/plantilla-banner-juego-simple-unica_92741-92.jpg"
-        ]
-    },
-    {
-        id: 'master2',
-        name: "Producto 2",
-        description: "Descripcion del producto 2",
-        price: 100,
-        images: [
-            "https://img.freepik.com/vector-premium/plantilla-banner-juego-simple-unica_92741-92.jpg"
-        ]
-    },
-    {
-        id: 'master3',
-        name: "Producto 3",
-        description: "Descripcion del producto 3",
-        price: 100,
-        images: [
-            "https://img.freepik.com/vector-premium/plantilla-banner-juego-simple-unica_92741-92.jpg"
-        ]
-    },
-    {
-        id: 'master4',
-        name: "Producto 4",
-        description: "Descripcion del producto 4",
-        price: 100,
-        images: [
-            "https://img.freepik.com/vector-premium/plantilla-banner-juego-simple-unica_92741-92.jpg"
-        ]
-    },
+//     {
+//         id: 'master',
+//         name: "Producto 1",
+//         description: "Descripcion del producto 1",
+//         price: 100,
+//         files: [
+//             "https://img.freepik.com/vector-premium/plantilla-banner-juego-simple-unica_92741-92.jpg"
+//         ]
+//     },
+//     {
+//         id: 'master2',
+//         name: "Producto 2",
+//         description: "Descripcion del producto 2",
+//         price: 100,
+//         images: [
+//             "https://img.freepik.com/vector-premium/plantilla-banner-juego-simple-unica_92741-92.jpg"
+//         ]
+//     },
+//     {
+//         id: 'master3',
+//         name: "Producto 3",
+//         description: "Descripcion del producto 3",
+//         price: 100,
+//         images: [
+//             "https://img.freepik.com/vector-premium/plantilla-banner-juego-simple-unica_92741-92.jpg"
+//         ]
+//     },
+//     {
+//         id: 'master4',
+//         name: "Producto 4",
+//         description: "Descripcion del producto 4",
+//         price: 100,
+//         images: [
+//             "https://img.freepik.com/vector-premium/plantilla-banner-juego-simple-unica_92741-92.jpg"
+//         ]
+//     },
     
-]
+// ]
 
-export const categories: string[] = [
+// export const categories: string[] = [
 
-    "Categoria 1",
-    "Categoria 2",
-    "Categoria 3",
-    "Categoria 4",
-    "Categoria 5",
-    "Categoria 6",
-    "Categoria 7",
-    "Categoria 8",
-    "Categoria 9",
-    "Categoria 10",
+//     "Categoria 1",
+//     "Categoria 2",
+//     "Categoria 3",
+//     "Categoria 4",
+//     "Categoria 5",
+//     "Categoria 6",
+//     "Categoria 7",
+//     "Categoria 8",
+//     "Categoria 9",
+//     "Categoria 10",
     
     
     
-]
+// ]

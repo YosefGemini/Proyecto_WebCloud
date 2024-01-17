@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { pageInfo, pages } from "../functions/ConstInfo";
+import { pages } from "../functions/ConstInfo";
 import NavBar from "../components/NavBar";
 
 interface NavigationProps {

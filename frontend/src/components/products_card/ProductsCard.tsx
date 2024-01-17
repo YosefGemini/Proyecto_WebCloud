@@ -13,7 +13,8 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div className="h-full rounded-lg">
         <img
         //   src={URL.createObjectURL(product.images[0])}
-         src={product.images[0]}
+        //  src={URL.createObjectURL(product.files[0])}
+          src="https://img.freepik.com/vector-premium/plantilla-banner-juego-simple-unica_92741-92.jpg"
           alt=""
           className="h-full aspect-square object-cover rounded-l-lg"
         />  

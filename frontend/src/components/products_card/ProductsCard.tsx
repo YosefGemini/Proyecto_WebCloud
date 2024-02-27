@@ -9,7 +9,7 @@ import loading_logo from "../../assets/cargando.gif";
 import { useEffect } from "react";
 import { useState } from "react";
 // import no_image from "../../assets/no_image.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function ProductCard({ product }: ProductCardProps) {
   const [file, setFile] = useState<Blob[]>([]);
@@ -35,6 +35,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   useEffect(() => {
     setLoading(true);
+
 
     if (!product.files[0]) {
       console.log("No hay archivos en " + product.name);
@@ -65,7 +66,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               //  src={URL.createObjectURL(product.files[0])}
               src={loading_logo}
               alt=""
-              className="h-full aspect-square object-cover rounded-l-lg"
+              className="h-full aspect-square object-cover rounded-l-lg pointer-events-none"
             />
           </div>
 
@@ -80,33 +81,28 @@ export default function ProductCard({ product }: ProductCardProps) {
       ) : (
         <div className="flex flex-row h-[199px]">
           <div className="h-full rounded-lg">
-            <img
-              //   src={URL.createObjectURL(product.images[0])}
-              //  src={URL.createObjectURL(product.files[0])}
-              src={
-                product.files.length < 1
-                  ? not_found_file
-                  : file[0]
-                  ? URL.createObjectURL(file[0])
-                  : loading_logo
-              }
-              alt=""
-              className="h-full aspect-square object-cover rounded-l-lg"
-              onClick={(e) => {
-                e.preventDefault();
-                handleClick();
-              }}
-            />
+            <Link to={`/products/${product.id}`}>
+              <img
+                //   src={URL.createObjectURL(product.images[0])}
+                //  src={URL.createObjectURL(product.files[0])}
+                src={
+                  product.files.length < 1
+                    ? not_found_file
+                    : file[0]
+                    ? URL.createObjectURL(file[0])
+                    : loading_logo
+                }
+                alt=""
+                className="h-full aspect-square object-cover rounded-l-lg"
+              />
+            </Link>
           </div>
 
           <div className="flex flex-col p-4 justify-start w-full">
             {/* nombre del producto */}
             <h1
               className="text-xl"
-              onClick={(e) => {
-                e.preventDefault;
-                handleClick();
-              }}
+              
             >
               {product.name.toUpperCase()}
             </h1>

@@ -9,6 +9,7 @@ import AboutUs from "../pages/AboutUs";
 import Products from "../pages/Products";
 import JWT from "./layout/JWT";
 import ProductPage from "../pages/product/Product";
+import BuyCart from "../pages/product/BuyCart";
 
 export default function AppRoutes() {
   return (
@@ -19,6 +20,7 @@ export default function AppRoutes() {
         <Route path="/products" element={<JWT><Products /></JWT>} />
         <Route path="/products/:id" element={<JWT><ProductPage /></JWT>} />
         <Route path="/about_us" element={<JWT><AboutUs /></JWT>} />
+        <Route path="/buyCart" element={<JWT><BuyCart /></JWT>} />
       </Routes>
     </Router>
   );

@@ -21,23 +21,23 @@ from os import path
 
 from enum import Enum
 from fastapi.middleware.cors import CORSMiddleware
-
-#from schemas.user import UserPublic, UserCreate, UserUpdate, UserDelete, UserToken, UserCredentials, UserFriends, User
-#from schemas.album import Album, AlbumCreate, AlbumUpdate, AlbumDelete
-#from schemas.photo import Photo, PhotoCreate, PhotoUpdate, PhotoDelete
-#from schemas.gender import Gender
-#from schemas.friend import Friend, FriendCreate, FriendUpdate, FriendDelete
-#from schemas.comment import Comment, CommentCreate, CommentUpdate, CommentDelete
-
-#from crud import user_crud, album_crud, photo_crud, comment_crud, reaction_crud
-
-#from manage_token import auth_token
-
+from botocore.exceptions import NoCredentialsError
+import boto3
 from models import file_model, product_model, category_model
 from schemas.file import FileCreate, FileUpdate, FileDelete, File_DB
 from schemas.category import CategoryCreate, CategoryUpdate, CategoryDelete, Category
 from schemas.product import ProductCreate, ProductUpdate, ProductDelete, Product
 from crud import file_crud,category_crud,product_crud
+
+
+s3_client = boto3.client('s3')
+#s3_bucket_name = 'grupo6.jose'
+AWS_REGION = 'us-east-1'
+S3_BUCKET_NAME = 'josejimenezbucket'
+
+#s3 = boto3.client('s3', region_name=AWS_REGION)
+
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
@@ -133,6 +133,125 @@ async def upload_file_endpoint(
 
 # Descarga archivo
     
+async def upload_file_to_s3(file: UploadFile, product_id: str):
+    try:
+        base_name, extension = os.path.splitext(file.filename)
+        number = 1
+        s3_file_name = file.filename
+        print('step 1')
+        s3_res = boto3.resource('s3')
+        bucket = s3_res.Bucket(S3_BUCKET_NAME)
+        # boto3.resource("s3").Bucket(S3_BUCKET_NAME).wait_until_exists()
+
+        # if s3.Bucket(S3_BUCKET_NAME).exists():
+        #     print("El bucket existe")
+        # else:
+        #     print("El bucket no existe")
+
+        #while s3.file_name_exists(S3_BUCKET_NAME, s3_file_name):
+        s3_file_name = f"{base_name}_{number}{extension}"
+        number += 1
+
+        path_to_save = f"uploads/files/Product_{product_id}/{s3_file_name}"
+        print('step 2',path_to_save)
+        upload_to_s3(path_to_save, file.file)
+        # bucket.upload_fileobj(file.file, path_to_save)
+        print('step 3')
+
+        return path_to_save
+
+    except NoCredentialsError:
+        raise HTTPException(status_code=500, detail="No se han encontrado las credenciales de AWS.")
+
+
+# endpoint para bucket s3
+    
+def upload_to_s3(file_path: str, file_content: UploadFile):
+    try:
+        s3_client.put_object(Body=file_content, Bucket=S3_BUCKET_NAME, Key=file_path)
+    except Exception as e:
+        # Maneja errores de subida a S3 según tus necesidades
+        print(f"Error uploading file to S3: {e}")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            detail="Error uploading file to S3")
+    
+@app.post("/api/files/s3", response_model=list[File_DB])
+async def upload_fileS3_endpoint(
+    db: Session = Depends(get_db),
+    files: list[UploadFile] = File(...),
+    product_id: str = Form(...),
+):
+
+    try:
+        files_schemas = []
+
+        for file in files:
+            s3_path = await upload_file_to_s3(file, product_id)
+
+            file_schema = FileCreate(
+                name=file.filename,
+                path=s3_path,
+                product_id=product_id
+            )
+
+            files_schemas.append(file_schema)
+
+        return file_crud.create_files(db=db, files=files_schemas)
+
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+# descargar desde S3
+#def s3_download_file(key: str):
+#    try:
+#        return s3.
+
+@app.get("/api/files/s3/{file_id}")
+async def download_file(file_id: str, db: Session = Depends(get_db),):
+    # Buscar el archivo en la base de datos
+    file = file_crud.get_file(db=db, file_id=file_id)
+    print("file: ", file.path)
+    print
+    if file is None:
+        raise HTTPException(status_code=404, detail="File not found in DB")
+    res_file = s3_client.head_object(Bucket=S3_BUCKET_NAME, Key=file.path)
+    print("respuesta de comprobacion:", res_file)
+
+    if not res_file:
+        raise HTTPException(status_code=404, detail="File not found in S3")
+    #config = botocore.client.Config(signature_version=botocore.UNSIGNED)
+    s3 = boto3.resource('s3')
+    #s3.Object()
+    #s3client = boto3.client('s3', config=config)
+    #url = s3client.generate_presigned_url('get_object', {'Bucket':S3_BUCKET_NAME, 'Key': file.path})
+    file_blob= s3.Object(bucket_name=S3_BUCKET_NAME, key=file.path).get()['Body'].read()
+    #print("\n File info: \n", file_info.content_type, file_info.last_modified)
+    print("filename :",file.name, "file path :",file.path)
+    #file = s3.Object.get(file.path)
+    #fileout= s3.Bucket(S3_BUCKET_NAME).download_file(file.path, file.name)
+    #print("Fase final", fileout)
+    #final_path = "https://app-store-storage.s3.us-east-2.amazonaws.com/" + file.path
+    print("finalPath: ", file)
+    # Devolver la URL del archivo en S3 para que el usuario pueda descargarlo
+    #return FileResponse(file_blob)
+    #return Response(
+    #    content=file_blob,
+    #    headers={
+    #        'Content-Disposition': f'inline;filename={file.name}',
+    #        'Content-Type': 'application/octet-stream',
+    #    }
+    #
+    #)
+    return Response(
+        content=file_blob,
+        headers={
+            "Content-Type": "image/jpeg",  # Ajusta el tipo de contenido según el formato de la imagen
+            "Content-Disposition": "inline",
+        },
+    )
+    #return file
+
+
 @app.get("/api/files/{file_id}")
 async def download_file_endpoint(
     file_id: str,

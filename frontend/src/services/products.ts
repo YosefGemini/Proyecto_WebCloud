@@ -9,8 +9,8 @@ export interface Product {
   discount: number;
   quantity: number;
   id: string;
-  categories: [Category];
-  files: [Files];
+  categories: Category[];
+  files: Files[];
 }
 export interface ProductCreate {
   name: string;
@@ -19,8 +19,8 @@ export interface ProductCreate {
   price: number;
   discount: number;
   quantity: number;
-  categories: [string];
-  files: [string];
+  categories: string[];
+  files: string[];
 }
 
 export interface ProductUpdate {

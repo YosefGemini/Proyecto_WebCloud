@@ -67,3 +67,99 @@ para instalar las dependencias necesarias
 
 * para salir del entorno virtual ejecute: ```deactivate```
 
+## 3 Subida a produccion 
+
+### 3.1 Subida de backend
+
+descargar el repositorio en la rama dev-jose 
+destinar una carpeta en home/user_name donde se descargara el repositorio
+
+
+*Ubíquese en la raíz de backend con:
+```cd backend```
+
+ y ejecute: *Ubíquese en la raíz de backend con:
+```cd backend```
+
+ y ejecute: 
+ 
+ ```python -m venv venv```
+
+ 
+ ```python -m venv venv```
+
+
+
+### 2.1.2 Instalacion de paquetes
+* Para activar el entorno virtual ejecute:   
+
+* **En bash :** ```. ./venv/bin/activate```   
+
+* **En fish :** ```. ./venv/bin/activate.fish```   
+
+
+
+
+
+para instalar los paquetes necesarios
+
+```
+pip install -r requirements.txt
+```
+
+
+salir del entorno virtual con 
+
+```deactivate```
+
+
+### 3.2 Subir la carpeta backend en el servidor
+
+
+
+
+
+crear un archivo en la ruta del servidor con la extension (nombre del servicio).service
+
+```
+/etc/systemd/system
+```
+
+dentro de este archivo escribir:
+
+```
+[Unit] 
+
+Description=FastAPI application
+After=network target
+
+[Service] 
+
+User=(usuario de ec2)
+
+Group=(grupo al que pertenece el usuario)
+
+Working Directory=/(directorio del backend)/backend
+
+ExecStart=/(Directorio del backend)/venv/bin/uvicorn main:app --host 0.0.0.0 --port (puerto de preferencia)
+Restart=always
+
+[Install]
+
+HantedBy=multi-user.target
+
+```
+
+luego ejecutar el servicio
+
+```sudo systemctl enable (nombre del servicio.service)```
+
+```sudo systemctl start (nombre del servicio.service)```
+
+
+
+
+
+
+
+

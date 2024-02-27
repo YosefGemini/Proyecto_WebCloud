@@ -1,7 +1,7 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode } from "react";
 import { pages } from "../functions/ConstInfo";
 import NavBar from "../components/NavBar";
-import { Product } from "../services/products";
+// import { Product } from "../services/products";
 // import useCart from "../hooks/useCart";
 
 interface NavigationProps {

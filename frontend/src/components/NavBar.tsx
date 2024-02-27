@@ -1,56 +1,79 @@
 import { pageInfo } from "../functions/ConstInfo";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import icon_page from "../assets/react.svg";
+import { JWTContext } from "./layout/JWT";
+import buyCart_logo from "../assets/carrito.png";
 
 interface NavBarProps {
-    // ...
-    options: pageInfo[];
-    activeIndex: number;
-    //SetOption: (index: number) => void;
+  // ...
+  options: pageInfo[];
+  activeIndex: number;
+  //SetOption: (index: number) => void;
 }
 
-export default function NavBar({options, activeIndex}:NavBarProps){
+export default function NavBar({ options, activeIndex }: NavBarProps) {
+  // const history = useNavigate();
+  const [Index, setIndex] = useState(activeIndex);
+  const { buyCart } = useContext(JWTContext);
 
-    const history = useNavigate();
-    const [Index, setIndex] = useState(activeIndex);
+  // useEffect(() => {
+  //   console.log("El index es: ", Index);
 
+  //   history(options[Index].path);
+  // }, [Index]);
 
-    useEffect(()=>{
-
-        history(options[Index].path);
-    },[Index])
-        
-
-    return(
-
-        <div className="w-full bg-[#172554a0] max-sm:flex-col text-secondary_blue flex-row justify-evenly items-center flex backdrop-blur-sm">
-      <div className="flex flex-row items-center justify-center">
-        <div className="p-2">
-            {/* <img src={icon_page} alt="" className="max-w-[50px] aspect-square" /> */}
-        </div>
-        <div className="">
+  return (
+    <div className="w-full bg-[#172554a0] max-sm:flex-col text-secondary_blue flex-row justify-evenly items-center flex backdrop-blur-sm">
+      <Link to="/">
+        <div className="flex h-full flex-row items-center justify-center">
+          <div className="p-2">
+            <img
+              src={icon_page}
+              alt=""
+              className="max-w-[50px] aspect-square"
+            />
+          </div>
+          <div className="">
             <p className="px-2 justify-center  font-semibold text-2xl">
-            Web Cloud 
+              Store Tech
             </p>
+          </div>
         </div>
-        
-      </div>
+      </Link>
 
       <div className="flex flex-row border-yellow-800 justify-end">
         {options.map((option, index) => (
-          <div
-            key={index}
-            className={`flex flex-row border-black p-3  items-center ${
-              Index === index ? "underline" : ""
-            }`}
-            onClick={() => setIndex(index)}
-          >
-            <div className="w-[100px] px-2 max-md:hidden">
-              <p>{option.name}</p>
+          <Link to={option.path}>
+            <div
+              key={index}
+              className={`flex flex-row border-black p-3  items-center ${
+                Index === index ? "underline" : ""
+              }`}
+              onClick={() => setIndex(index)}
+            >
+              <div className="px-2 max-md:hidden">
+                <p>{option.name}</p>
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
+
+
+      <Link to="/buyCart" className="hover:bg-third_blue rounded-md duration-300">
+        <div className="flex ">
+          <p className="m-2">Carrito </p>
+          <img
+            src={buyCart_logo}
+            alt=""
+            className="h-[20px] m-2 pointer-events-none"
+          />
+          <p className="text-secondary_blue m-2">{buyCart.length}</p>
+
+          
+        </div>
+      </Link>
     </div>
-    );
+  );
 }

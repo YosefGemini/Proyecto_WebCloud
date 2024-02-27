@@ -1,86 +1,73 @@
 import { useEffect, useState } from "react";
 
 import leftArrow from "../../assets/leftArrow.png";
+// import { Files } from "../../services/files";
 
-export interface News {
-  title: string;
-  description: string;
-  imageURL: string;
-  link: string;
+// import not_found_file from "../../assets/no_found_file.jpg";
+import loading_logo from "../../assets/cargando.gif";
+
+
+
+interface ImageCarruselProps {
+  files: Blob[];
 }
 
-interface NewsCarruselProps {
-  news: News[];
-}
-
-export default function NewsCarrusel({ news }: NewsCarruselProps) {
+export default function ImageCarrusel({ files }: ImageCarruselProps) {
   const defaultIndex = 0;
 
-  const [indexNews, setIndexNews] = useState(defaultIndex);
+  const [indexImg, setIndexImg] = useState(defaultIndex);
 
   function handleNext() {
-    if (indexNews < news.length - 1) {
-      setIndexNews(indexNews + 1);
+    if (indexImg < files.length - 1) {
+      setIndexImg(indexImg + 1);
     } else {
-      setIndexNews(0);
+      setIndexImg(0);
     }
   }
   function handlePrev() {
-    if (indexNews > 0) {
-      setIndexNews(indexNews - 1);
+    if (indexImg > 0) {
+      setIndexImg(indexImg - 1);
     } else {
-      setIndexNews(news.length - 1);
+      setIndexImg(files.length - 1);
     }
   }
 
   useEffect(() => {
-    console.log("el indice actual es: ", indexNews);
-  }, [indexNews]);
+    console.log("el indice actual es: ", indexImg);
+  }, [indexImg]);
 
   return (
     <>
-      <div className="w-full bg-primary_blue text-secondary_blue font-livvic_extraLight">
+      <div className="w-full aspect-square bg-primary_blue text-secondary_blue font-livvic_extraLight">
         <div className="relative flex flex-col h-full">
-          {news.map((notice, index) => (
+          {files.map((file, index) => (
             <div
               key={index}
               className={`${
-                index == indexNews ? "" : "hidden"
+                index == indexImg ? "" : "hidden"
               }  w-full h-full flex flex-col justify-center items-center`}
             >
               <div
                 className={`w-full h-full flex flex-col justify-center items-center relative`}
               >
                 <img
-                  className="w-[100%] object-cover h-[600px] bg-primary_blue pointer-events-none"
-                  src={notice.imageURL}
-                  alt={notice.title}
+                  className="w-[100%] object-cover aspect-square bg-primary_blue pointer-events-none"
+                  src={file ? URL.createObjectURL(file): loading_logo}
+                  alt=""
                 />
 
-                <div className="flex flex-col w-full backdrop-blur-sm h-[200px] bottom-0 absolute justify-end items-center">
-                  <h1 className="text-3xl font-bold text-center text-red-500">
-                    {notice.title}
-                  </h1>
-
-                  <p className="text-lg text-center text-white">{notice.description}</p>
-                  <a
-                    className="text-lg text-center underline text-white"
-                    href={notice.link}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Mas informacion
-                  </a>
-                  {/* indicadir de dertificado en pantalla */}
+                <div className="flex flex-col w-full backdrop-blur-sm bottom-0 absolute justify-end items-center">
+                  
+                  {/* indicadir de img en pantalla */}
 
                   <div className="flex flex-row">
-                    {news.map((_, index) => (
+                    {files.map((_, index) => (
                       <div
                         key={index}
                         className={`${
-                          index == indexNews
-                            ? "bg-white scale-110"
-                            : "bg-gray-300"
+                          index == indexImg
+                            ? "bg-third_blue scale-110"
+                            : "bg-primary_blue"
                         } w-3 h-3 m-1 rounded-full my-2 duration-300`}
                       ></div>
                     ))}

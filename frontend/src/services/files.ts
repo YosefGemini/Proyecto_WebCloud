@@ -1,10 +1,10 @@
 import { get_token } from "./globals";
 export interface Files{
 
-  file_name: string,
-  file_path: string,
-  ticket_id: string,
-  file_id: string
+  name: string,
+  path: string,
+  // product_id: string,
+  id: string
 }
 
 export async function add_images(data_form: FormData) {
@@ -63,22 +63,22 @@ export function print_dataForm(data_form: FormData) {
 export function isFormDataEmpty(formData: FormData) {
   return formData.entries().next().done;
 }
-export async function download_file(file_id: string, token: String | null = get_token()) {
+export async function download_file(file_id: string) {
 
   try{
 
-    if (!token)
-    return new Promise((resolve, reject) => {
-      resolve(null);
-      reject(null);
-    });
+    // if (!token)
+    // return new Promise((resolve, reject) => {
+    //   resolve(null);
+    //   reject(null);
+    // });
 
 
-    const res = await fetch(`/api/file/${file_id}`, {
+    const res = await fetch(`/api/files/s3/${file_id}`, {
     method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    // headers: {
+    //   Authorization: `Bearer ${token}`,
+    // },
   });
   if (res.status == 200) {
     return res.blob();
@@ -116,9 +116,9 @@ export function formDataToFileList(formData: FormData): FileList {
 
   return fileList.files;
 }
-export function buildFormData(ticketId: string, files: FileList): FormData {
+export function buildFormData(productId: string, files: FileList): FormData {
   const formData = new FormData();
-  formData.append("ticket_id", ticketId);
+  formData.append("ticket_id", productId);
 
   for (let i = 0; i < files.length; i++) {
     const file = files[i];

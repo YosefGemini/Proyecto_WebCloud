@@ -4,20 +4,20 @@ import NavigationLayout from "./NavigationLayout";
 import { Category, getAllCategories } from "../services/category";
 import { Product, get_all_products } from "../services/products";
 import ProductList from "../components/product_list/ProductList";
+import Loading from "../components/loading/Loading";
 
 interface IData {
   categories: Category[];
   products: Product[];
 }
 
-
 export const ContextoSearch = createContext({ search_text: "" });
 
 export default function Products() {
-  
   // const [search, setSearch] = useState<string>("");
 
   const [search_text, set_search_text] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   // const [category_info, setCategory_info] = useState<Category[]>([]);
   // const [products, setProducts] = useState<Product[]>([]);
@@ -26,38 +26,48 @@ export default function Products() {
     products: [],
   });
 
-
   useEffect(() => {
+
+    setLoading(true);
     //console.log(search_text);
     const get_products = async () => {
       const category = await getAllCategories();
       if (!category) return;
-      const category_data =await category.json();
+      const category_data = await category.json();
       console.log(category_data);
 
-      
       const products = await get_all_products();
 
       if (!products) return;
 
-
-      const products_data =await products.json();
+      const products_data = await products.json();
       console.log(products_data);
 
-      setDataItems({...dataItems, categories: category_data, products: products_data});
-      
-    }
+      setDataItems({
+        ...dataItems,
+        categories: category_data,
+        products: products_data,
+      });
+    };
     get_products();
+    setLoading(false);
   }, []);
 
   return (
     <NavigationLayout selectedPage={1}>
+      {loading ? <Loading /> : <></>}
       <div className="mt-[70px]">
         <div className=" flex flex-col justify-center">
           <form action="" className="w-full flex justify-center items-center ">
-            <label className="text-white" >Buscar: </label>
-            <input type="text" className=" p-2 rounded-lg m-4 w-[30%]" value={search_text} onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              set_search_text(e.target.value)}/>
+            <label className="text-white">Buscar: </label>
+            <input
+              type="text"
+              className=" p-2 rounded-lg m-4 w-[30%]"
+              value={search_text}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                set_search_text(e.target.value)
+              }
+            />
             {/* <button className="bg-secondary_blue text-primary_blue p-2 m-4">
               Buscar
             </button> */}
@@ -67,25 +77,19 @@ export default function Products() {
             <div className="w-[20%] flex flex-col text-white m-8">
               <h1>Categorias</h1>
               <ul className="pl-5">
-
-                
-                {dataItems.categories.map(
-                  (category, index) =>
-                    (
-                      <li key={index} className="my-2">
-                        {category.name}
-                      </li>
-                    ) 
-                )}
+                {dataItems.categories.map((category, index) => (
+                  <li key={index} className="my-2">
+                    {category.name}
+                  </li>
+                ))}
               </ul>
             </div>
             <div className="w-[60%]">
               <ContextoSearch.Provider value={{ search_text }}>
-                <ProductList products={dataItems.products} /> 
+                <ProductList products={dataItems.products} />
               </ContextoSearch.Provider>
 
               {/* <ProductList products={dataItems.products} /> */}
-              
             </div>
 
             {/* productos */}

@@ -4,9 +4,9 @@ import jose_photo from "../assets/profile_photo.jpg";
 export default function AboutUs() {
   return (
     <NavigationLayout selectedPage={2}>
-      <div className="mt-[70px] flex flex-col justify-center items-center">
+      <div className="mt-[70px] min flex flex-col justify-center items-center">
         {/* <h1>About Us</h> */}
-        <div className="max-w-6xl py-24 px-6 bg-slate-200 rounded-lg my-10">
+        <div className="max-w-6xl py-24 px-6 bg-slate-200 rounded-lg my-20">
           <h2 className="text-4xl font-bold text-center">
             Gracias por ver nuestro trabajo!
           </h2>

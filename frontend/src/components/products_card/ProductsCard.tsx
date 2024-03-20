@@ -59,7 +59,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     <div className="w-full h-[200px] overflow-hidden">
       {/* Contenido tarjeta */}
       {loading ? (
-        <div className="flex flex-row h-[199px]">
+        <div className="flex flex-row h-[199px] bg-slate-200">
           <div className="h-full rounded-lg">
             <img
               //   src={URL.createObjectURL(product.images[0])}

@@ -4,10 +4,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary_blue: "#172554",
+        primary_blue: "#33B0B5",
         secondary_blue: "#B3CAFE",
         third_blue: "#1D4ED8",
-        fourth_blue: "#407BFE",
+        fourth_blue: "#415161",
         fifth_blue: "linear-gradient(to right, #172554, #1D4ED8);",
       },
     },

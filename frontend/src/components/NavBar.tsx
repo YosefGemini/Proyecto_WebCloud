@@ -24,7 +24,7 @@ export default function NavBar({ options, activeIndex }: NavBarProps) {
   // }, [Index]);
 
   return (
-    <div className="w-full bg-[#172554a0] max-sm:flex-col text-secondary_blue flex-row justify-evenly items-center flex backdrop-blur-sm">
+    <div className="w-full h-[70px] bg-slate-200 max-sm:flex-col text-blue-950 flex-row justify-evenly items-center flex backdrop-blur-sm">
       <Link to="/">
         <div className="flex h-full flex-row items-center justify-center">
           <div className="p-2">
@@ -61,15 +61,15 @@ export default function NavBar({ options, activeIndex }: NavBarProps) {
       </div>
 
 
-      <Link to="/buyCart" className="hover:bg-third_blue rounded-md duration-300">
+      <Link to="/buyCart" className="hover:bg-primary_blue rounded-md duration-300">
         <div className="flex ">
           <p className="m-2">Carrito </p>
           <img
             src={buyCart_logo}
             alt=""
-            className="h-[20px] m-2 pointer-events-none"
+            className="h-[20px] m-2 pointer-events-none invert"
           />
-          <p className="text-secondary_blue m-2">{buyCart.length}</p>
+          <p className="text-fourth_blue m-2">{buyCart.length}</p>
 
           
         </div>
